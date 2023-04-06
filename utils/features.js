@@ -3,9 +3,13 @@ import path from "path";
 import nodemailer, { createTransport } from "nodemailer";
 
 export const getDataUri = (file) => {
-  const parser = new DataUriParser();
-  const extName = path.extname(file.originalname);
-  return parser.format(extName, file.buffer);
+  if (!file) {
+    return null;
+  } else {
+    const parser = new DataUriParser();
+    const extName = path.extname(file.originalname);
+    return parser.format(extName, file.buffer);
+  }
 };
 
 export const sendToken = (user, res, message, statusCode) => {
@@ -20,9 +24,9 @@ export const sendToken = (user, res, message, statusCode) => {
 };
 
 export const cookieOption = {
-  httpOnly: process.env.NODE_ENV === "development" ? false : true,
-  secure: process.env.NODE_ENV === "development" ? false : true,
-  sameSite: process.env.NODE_ENV === "development" ? false : "none",
+  httpOnly: false ,
+  secure: false,
+  sameSite:false,
 };
 
 export const sendEmail = async (subject, to, text) => {

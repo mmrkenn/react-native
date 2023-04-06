@@ -15,7 +15,7 @@ import { singleUpload } from "../middlewares/multer.js";
 const router = express.Router();
 
 router.post("/login", Login); // no need enter /api/vi again!
-router.post("/signup", singleUpload, SignUp);
+router.post("/signup", singleUpload , SignUp);
 router.post("/logout", isAuth, Logout);
 router.get("/me", isAuth, getProfile);
 

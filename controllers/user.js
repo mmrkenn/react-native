@@ -11,20 +11,21 @@ import {
 
 export const SignUp = asyncErrorHandler(async (req, res, next) => {
   const { name, email, password, city, country, pinCode } = req.body;
+
   let user = await User.findOne({ email });
   if (user) next(ErrorHandler("User is already exsisted", 400));
-
-  const file = getDataUri(req.file);
+  let avatar = null;
 
   if (req.file) {
+    const file = getDataUri(req.file);
+    console.log(file);
     const image = await cloudinary.v2.uploader.upload(file.content);
     avatar = {
       public_id: image.public_id,
       url: image.secure_url,
     };
   }
-
-  user = await User.create({
+  user = await User.create({  
     name,
     email,
     password,
@@ -33,6 +34,7 @@ export const SignUp = asyncErrorHandler(async (req, res, next) => {
     pinCode,
     avatar,
   });
+
   sendToken(user, res, "Sucessfully resgistered", 201);
 });
 
@@ -158,26 +160,24 @@ export const forgetPassword = asyncErrorHandler(async (req, res, next) => {
 });
 
 export const resetPassword = asyncErrorHandler(async (req, res, next) => {
-  const {opt , password} = req.body
+  const { opt, password } = req.body;
 
   const user = await User.findOne({
-    opt , 
+    opt,
     opt_expire: {
-      $gt: Date.now()
-    }
-  })
+      $gt: Date.now(),
+    },
+  });
 
-  if(!user) return next(ErrorHandler ("OTP is not correct or expired!" , 401) )
-  if(!password) return next(ErrorHandler ('Please enter a new password' , 401))
+  if (!user) return next(ErrorHandler("OTP is not correct or expired!", 401));
+  if (!password) return next(ErrorHandler("Please enter a new password", 401));
 
-  user.password = password
-  user.opt = undefined
-  user.opt_expire = undefined,
-
-  await user.save();
+  user.password = password;
+  user.opt = undefined;
+  (user.opt_expire = undefined), await user.save();
 
   res.status(200).json({
     success: true,
-    message: "Password is updated!"
-  })
+    message: "Password is updated!",
+  });
 });

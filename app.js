@@ -3,6 +3,7 @@ import cookieParser from 'cookie-parser'
 import {config} from 'dotenv'
 import {errorMiddleware} from "./middlewares/errorHandler.js"
 import cors from "cors"
+import mongoose from "mongoose"
 
 config({
   path: "./data/config.env"
@@ -15,8 +16,8 @@ app.use(cookieParser())
 app.use(cors({
   credentials: true,
   methods: ["GET" , "PUT" , "POST" , "DELETE"],
-  origin: [process.env.FRONT_URL_1 , process.env.FRONT_URL_2]
 }))
+
 
 // Import router 
 
