@@ -103,7 +103,9 @@ export const changeProfile = asyncErrorHandler(async (req, res, next) => {
   if (pinCode) user.pinCode = pinCode;
   if (req.file) {
     const file = getDataUri(req.file);
-    await cloudinary.v2.uploader.destroy(user.avatar.public_id);
+    if(user.avatar) {
+      await cloudinary.v2.uploader.destroy(user.avatar.public_id);
+    }
     const image = await cloudinary.v2.uploader.upload(file.content);
     avatar = {
       public_id: image.public_id,
