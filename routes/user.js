@@ -19,7 +19,7 @@ router.post("/signup", singleUpload , SignUp);
 router.post("/logout", isAuth, Logout);
 router.get("/me", isAuth, getProfile);
 
-router.put("/updateprofile", isAuth, changeProfile);
+router.put("/updateprofile", isAuth, singleUpload , changeProfile);
 router.put("/changepassword", isAuth, changePassword);
 router.put("/updatepic" , isAuth , singleUpload , updatePic)
 

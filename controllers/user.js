@@ -94,13 +94,22 @@ export const changeProfile = asyncErrorHandler(async (req, res, next) => {
   const { name, email, city, country, pinCode } = req.body;
   const user = await User.findById(req.user._id);
 
-  console.log(req.user);
+  let avatar = null;
 
   if (name) user.name = name;
   if (email) user.email = email;
   if (city) user.city = city;
   if (country) user.country = country;
   if (pinCode) user.pinCode = pinCode;
+  if (req.file) {
+    const file = getDataUri(req.file);
+    await cloudinary.v2.uploader.destroy(user.avatar.public_id);
+    const image = await cloudinary.v2.uploader.upload(file.content);
+    avatar = {
+      public_id: image.public_id,
+      url: image.secure_url,
+    };
+  }
 
   await user.save();
 
