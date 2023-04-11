@@ -107,7 +107,7 @@ export const changeProfile = asyncErrorHandler(async (req, res, next) => {
       await cloudinary.v2.uploader.destroy(user.avatar.public_id);
     }
     const image = await cloudinary.v2.uploader.upload(file.content);
-    avatar = {
+    user.avatar = {
       public_id: image.public_id,
       url: image.secure_url,
     };
