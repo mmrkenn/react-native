@@ -95,7 +95,6 @@ export const updateProduct = asyncErrorHandler(async (req, res, next) => {
   if (name) product.name = name;
   if (price) product.price = price;
   if (stock) product.stock = stock;
-  if (description) product.description = description;
   if (category) product.category = category;
 
   await product.save();
