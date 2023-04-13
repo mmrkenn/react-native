@@ -38,7 +38,7 @@ export const productDetails = asyncErrorHandler(async (req, res, next) => {
 });
 
 export const addProduct = asyncErrorHandler(async (req, res, next) => {
-  const { name, price, stock, description, category } = req.body;
+  const { name, price, stock, category } = req.body;
 
   let image = null;
   if (req.file) {
@@ -54,7 +54,6 @@ export const addProduct = asyncErrorHandler(async (req, res, next) => {
     name,
     price,
     stock,
-    description,
     category,
     images: image ? [image] : undefined,
   });

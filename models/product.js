@@ -15,7 +15,6 @@ const schema = new mongoose.Schema({
   },
   description: {
     type: String,
-    required: [true, "Description is required"],
   },
   images: [{public_id: String , url: String }
   ],
