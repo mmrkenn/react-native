@@ -89,7 +89,7 @@ export const addProductPic = asyncErrorHandler(async (req, res, next) => {
 });
 
 export const updateProduct = asyncErrorHandler(async (req, res, next) => {
-  const { name, price, stock, description, category } = req.body;
+  const { name, price, stock, category} = req.body;
   const product = await Product.findById(req.params.id);
 
   if (name) product.name = name;
