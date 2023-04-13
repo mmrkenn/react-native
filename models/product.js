@@ -6,7 +6,7 @@ const schema = new mongoose.Schema({
     required: [true, "Name is required"],
   } ,
   price: {
-    type: String,
+    type: Number,
     required: [true, "Price is required"],
   },
   stock: {

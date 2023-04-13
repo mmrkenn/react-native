@@ -157,8 +157,6 @@ export const addCategory = asyncErrorHandler(async (req, res, next) => {
 
   const isNew = await Category.findOne({ category });
 
-  console.log(isNew);
-
   if (isNew == null)
     await Category.create({
       category,
@@ -183,16 +181,17 @@ export const fetchCategory = asyncErrorHandler(async (req, res, next) => {
 });
 
 export const deleteCategory = asyncErrorHandler(async (req, res, next) => {
-  const category = await Category.findOne(req.body);
+  const data = await Category.findOne(req.body);
+  console.log(data._id.toString())
 
-  const products = await Product.find({ category: category._id.toString() });
+  const products = await Product.find({ category: data._id.toString() });
 
   products.forEach( async (item) => {
     item.category = undefined;
     await item.save()
   });
 
-  await Category.findByIdAndDelete(category._id);
+  await Category.findByIdAndDelete(data._id);
 
   res.status(200).json({
     success: true,
